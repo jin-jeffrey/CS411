@@ -1,8 +1,8 @@
-Ideas
--Recommend Ebooks based on music choices (Spotify API, Free Ebooks API)
--Trip Planning Project (Different Airplanes and Planning company API)
+Proposal 1 (Recommending eBooks based on music users listens to)
 
-Proposal-1 (Airline / Hotel Reservation System)
+The idea of this project is to analyze a user’s playlists and favorite songs on Spotify, and recommend ebooks for them based on common themes, keywords, genres etc., providing a link to access the ebook online. Ultimately, we want to suggest ebooks a user might like based on the music they like. OAuth will be used for the user to log into their Spotify account. The APIs we would use would be from Spotify, a free ebook API, like Open Library, and possibly an API for searching lyrics (in case we want to do some text analysis of lyrics to determine themes, keywords, etc).  A database would be used to map certain genres, keywords, artists, albums to free available ebooks online.
+
+Proposal-2 (Airline / Hotel Reservation System)
 
   - Create a reservation system which books airline seats or hotel rooms. This Web application will charge various
   rates for particular sections of the plane or hotel. For instance, price will be higher during weekends than weekdays. 
