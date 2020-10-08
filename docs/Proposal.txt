@@ -1,1 +1,3 @@
-
+Ideas
+-Recommend Ebooks based on music choices (Spotify API, Free Ebooks API)
+-Trip Planning Project (Different Airplanes and Planning company API)
