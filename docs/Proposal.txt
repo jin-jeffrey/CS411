@@ -12,7 +12,7 @@ Proposal-2 (Airline / Hotel Reservation System)
 
   - Create a reservation system which books airline seats or hotel rooms. This Web application will charge various
   rates for particular sections of the plane or hotel. For instance, price will be higher during weekends than weekdays. 
-  First class flight will cost more than coach and suits will cost more than standard rooms. This web application will keep trac of when rooms will be avaible and can be scheduled as well.
+  First class flight will cost more than coach and suites will cost more than standard rooms. This web application will keep track of when rooms will be available and can be scheduled as well.
   
   api for flight search: 
   https://rapidapi.com/skyscanner/api/skyscanner-flight-search/details
@@ -20,4 +20,4 @@ Proposal-2 (Airline / Hotel Reservation System)
   api for hotel room search:
   https://rapidapi.com/apidojo/api/tripadvisor1/details
 
-  The TripAdvisor API is a web service that queries real-time flight prices, hotel bookings, restaurants, attractions, and more
+  The TripAdvisor API is a web service that queries real-time flight prices, hotel bookings, restaurants, attractions, and more.
