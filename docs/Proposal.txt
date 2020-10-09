@@ -14,4 +14,4 @@ This project is to create a reservation system which books airline seats or hote
 of the plane or hotel. For instance, price will be higher during weekends than weekdays. First class flights will cost more than coach and suites will cost more 
 than standard rooms. This web application will keep track of when rooms will be available and can be scheduled as well. We will use an API for flight search, 
 such as Skyscanner Flight Search, and the TripAdvisor API, which is a web service that queries real-time flight prices, hotel bookings, restaurants, attractions, 
-and more. We will use the Google Oath to add events, such as flights and hotel stays into Google Calendars.
+and more. We will use the Google Oauth to add events, such as flights and hotel stays into Google Calendars.
