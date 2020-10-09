@@ -19,5 +19,8 @@ Proposal-2 (Airline / Hotel Reservation System)
   
   api for hotel room search:
   https://rapidapi.com/apidojo/api/tripadvisor1/details
+  
+  oauth idea
+  Using google oauth
 
   The TripAdvisor API is a web service that queries real-time flight prices, hotel bookings, restaurants, attractions, and more.
