@@ -1,3 +1,4 @@
+Group Members: Jeffrey Jin, Snigdha Kalathur, Cassie Huang, Saemi Jung, Jongho Han, Tong Han 
 Proposal 1 (Recommending eBooks based on music users listens to)
 
 The idea of this project is to analyze a user’s playlists and favorite songs on Spotify, and recommend ebooks for them based on common themes, keywords, genres 
