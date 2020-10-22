@@ -1,1 +1,4 @@
-
+As a signed in user, I want to receive a list of recommendations for ebooks based on my imported Spotify playlist themes. On successful import, our 
+algorithm will consider the different themes of the songs in the playlist and return ebooks with similar themes. The displayed page will be a 
+directory with buttons linking to the ebooks. Upon failure of import, there will be a popup message showing the reason why the import failed with an option 
+to retry. If the algorithm does not return an ebook or the requested 5 ebooks, another message specifying the reason will be displayed with an option to retry.
