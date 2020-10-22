@@ -1,4 +1,4 @@
-As a logged-in user, I want to get recommendation of ebooks based on my music preference. When I log in my Spotify, it will access to my favorite songs
+- (JEFFREY) As a logged-in user, I want to get recommendation of ebooks based on my music preference. When I log in my Spotify, it will access to my favorite songs
 or songs that I usually listened. Based on my playlist, if I prefer some hiphop or rap music, through compared the music types and search the corresponding
 ebooks, I probably would like to read some Action or Adventure which will be more fast-paced; or some Science Fiction or Humor that are light fiction rather 
 than serious novels. If the app is not accurate, as a fan of rap, I may receive the recommendation of History or Art, which have quite high possibilities that
@@ -13,12 +13,12 @@ get other genres books like Sci fiction or Horror fiction, it will definitely no
 
 As a logged-in user, I want to know what my idol would like to read…?
 
-As a logged in user, I want to be able to import my spotify playlist so that I can choose which playlists are analyzed. 
+- (SNIGDHA)As a logged in user, I want to be able to import my spotify playlist so that I can choose which playlists are analyzed. 
 
-As a user, I will be able to login via my spotify account information. 
+- (CASSIE) As a user, I will be able to login via my spotify account information. 
 
 As a user, I will be able to access the different books recommended to me. 
 
-As a logged in user, I want to receive a list of five books that relate to the theme of my playlist. 
+- (JEFFREY) As a logged in user, I want to receive a list of five books that relate to the theme of my playlist. 
 
-As a developer, I want to store common themes and related books within a database.
+- (SAEMI) As a developer, I want to store common themes and related books within a database.
