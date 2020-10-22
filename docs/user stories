@@ -1,7 +1,8 @@
 As a logged-in user, I want to get recommendation of ebooks based on my music preference. When I log in my Spotify, it will access to my favorite songs
 or songs that I usually listened. Based on my playlist, if I prefer some hiphop or rap music, through compared the music types and search the corresponding
 ebooks, I probably would like to read some Action or Adventure which will be more fast-paced; or some Science Fiction or Humor that are light fiction rather 
-than serious novels. If the app is not accurate, as a fan of rap, I may receive the recommendation of History or Art.
+than serious novels. If the app is not accurate, as a fan of rap, I may receive the recommendation of History or Art, which have quite high possibilities that
+I would not like to read.
 
 As a logged-in user, I want to get the right novels that fit in my mood right now. When I log in my Spotify, it will access to my favorite songs or songs that 
 I am listening right now. So based on my songs, which may be about breaking up like “Someone like you”, the app will get the song’s type and song’s lyrics to 
@@ -10,4 +11,4 @@ some Romantic or Fairy tale that I probably will have  the exact same experience
 get other genres books like Sci fiction or Horror fiction, it will definitely not help me.
 
 
-As a logged-in user, I want to know what my idol will like to read….?
+As a logged-in user, I want to know what my idol would like to read…?
