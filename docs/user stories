@@ -12,3 +12,13 @@ get other genres books like Sci fiction or Horror fiction, it will definitely no
 
 
 As a logged-in user, I want to know what my idol would like to read…?
+
+As a logged in user, I want to be able to import my spotify playlist so that I can choose which playlists are analyzed. 
+
+As a user, I will be able to login via my spotify account information. 
+
+As a user, I will be able to access the different books recommended to me. 
+
+As a logged in user, I want to receive a list of five books that relate to the theme of my playlist. 
+
+As a developer, I want to store common themes and related books within a database.
