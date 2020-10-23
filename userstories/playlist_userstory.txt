@@ -1,1 +1,3 @@
-As a logged in user, I want to be able to see all of my spotify playlists so that I can choose which playlist I want ebook recommendations based off of. If I do not have any personal playlists, three standard playlists from Spotify will be displayed from which I can select one from. I need to be able to switch my selected playlist as many times as I want until I click the the submit button to generate recommendations.  
+As a logged in user, I want to be able to see all of my spotify playlists so that I can choose which playlist I want ebook recommendations based off of. 
+If I do not have any personal playlists, three standard playlists from Spotify will be displayed from which I can select one from. 
+I need to be able to switch my selected playlist as many times as I want until I click the the submit button to generate recommendations.  
