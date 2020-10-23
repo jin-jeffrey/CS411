@@ -1,3 +1,3 @@
-As a developer, I want to store common themes and related ebooks within a database. I also have an access/ permission to the list of the themes and ebooks
+As a developer, I want to store common themes and related ebooks within the database. I will also have an access/ permission to the list of the themes and ebooks
 so that I can add more whenever update is needed. After analyzing which theme the playlist has, I would like to match it to one of the common themes on database.
 Each ebook on database will be categorized by the common themes.
