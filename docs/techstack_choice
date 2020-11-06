@@ -1,0 +1,7 @@
+The two technology stacks that we have considered are MERN stack and Python-Django stack (ultimately deciding on MERN stack). For the MERN stack, the technologies we 
+considered include ReactJS for the frontend, Express and Node for the backend, and MongoDB for the database. For the Python-Django stack, we thought to use Python with HTML5 
+and CSS3 for the frontend and Python for the backend with a SQLite database. One reason we chose MERN stack over Python-Django stack is because ReactJS is more responsive 
+and reactive than HTML and CSS, so user experience will be more enjoyable with a MERN stack approach. Another reason we chose MERN stack is that MongoDB is a NoSQL database
+which also means it is very horizontally scalable, which may come in handy for storing users, ebook titles, and spotify playlist themes. In addition, Python-Django's SQLite 
+database is a relational database, but we ultimately decided that a relational database is not necessary for our project. This is why we chose to use MERN stack with ReactJS, 
+Express, Node, and MongoDB. 
