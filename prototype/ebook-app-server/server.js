@@ -1,8 +1,10 @@
 const express = require('express');
 var cors = require('cors');
 const fetch = require('node-fetch');
-
 const app = express();
+const client_id = '4ebacdebdf854fec86afc40543d6dbdf';
+const redirect_uri = 'http://localhost:3000';
+
 
 app.use(cors());
 
@@ -24,7 +26,17 @@ app.get("/lyrics/:artist/:song", async (req, res) => {
     console.log("https://api.lyrics.ovh/v1/" + currentArtist + "/" + currentSong);
     console.log("DATA", data)
     res.json(data);
-            
+
+});
+
+// Spotify OAuth endpoint
+app.get('/login', function(req,res) {
+    var scopes = 'user-read-email playlist-read-private playlist-read-collaborative';
+    res.redirect('https://accounts.spotify.com/authorize' + 
+    '?response_type=code' + 
+    '&client_id=' + client_id +
+    (scopes ? '&scope=' + encodeURIComponent(scopes): '') + 
+    '&redirect_uri=' + encodeURIComponent(redirect_uri));
 });
 
 app.listen(1234, () => {

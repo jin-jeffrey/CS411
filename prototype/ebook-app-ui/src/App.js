@@ -18,7 +18,7 @@ class App extends Component {
   async getLyrics(songInfo) {
     console.log(songInfo);
     const url = `${baseServerURL}/lyrics/${songInfo.currentArtist}/${songInfo.currentSong}`;
-   console.log(url);
+    console.log(url);
 
     
     fetch(url)
@@ -33,11 +33,18 @@ class App extends Component {
 
   }
 
+  async signIn() {
+    const url = `${baseServerURL}/login`
+
+    fetch(url)
+  }
+
   //html goes below
   render() {
     return (
       <div className='container'>
         <h2>Playlist to ebook App</h2>
+        <button onClick={()=>window.location=`${baseServerURL}/login`}>Login to Spotify</button>
         <SearchForm onSubmit={this.getLyrics} />
         <div>
           {this.state.lyrics}
