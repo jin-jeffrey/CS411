@@ -33,12 +33,6 @@ class App extends Component {
 
   }
 
-  async signIn() {
-    const url = `${baseServerURL}/login`
-
-    fetch(url)
-  }
-
   //html goes below
   render() {
     return (
