@@ -35,8 +35,21 @@ app.get('/login', function(req,res) {
     res.redirect('https://accounts.spotify.com/authorize' + 
     '?response_type=code' + 
     '&client_id=' + client_id +
-    (scopes ? '&scope=' + encodeURIComponent(scopes): '') + 
-    '&redirect_uri=' + encodeURIComponent(redirect_uri));
+    '&scope=' + encodeURIComponent(scopes) + 
+    '&redirect_uri=' + encodeURIComponent(redirect_uri) +
+    // if show_dialog set to false, users would not have to approve app again 
+    '&show_dialog=true'); 
+});
+
+app.get("/playlists/:token", function(req,res) {
+    let token = req.params.token;
+
+    fetch('https://accounts.spotify.com/api/token', {
+        method: 'post',
+        grant_type: 'authorization_code',
+        code: token,
+        redirect_uri: redirect_uri
+    });
 });
 
 app.listen(1234, () => {
