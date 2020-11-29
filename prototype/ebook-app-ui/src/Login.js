@@ -16,7 +16,7 @@ class Login extends Component {
         this.state = {
             isSignedIn: token ? true : false,
             token: token,
-            albums: {name:'', id:''}
+            albums: []
         };
     }
 
@@ -41,7 +41,8 @@ class Login extends Component {
         fetch(url)
         .then(response => response.json())
         .then(data => {
-            console.log(data)
+            this.state.albums = data.items
+            console.log(this.state.albums)
         })
         .catch(error => console.log(error));
     }
@@ -56,6 +57,7 @@ class Login extends Component {
                 </div> :
                 <button onClick={() => window.location=this.props.baseServerUrl + '/login'}>Login to Spotify</button> 
                 }
+                <div>{this.state.albums}</div>
             </div>
         );
     }
