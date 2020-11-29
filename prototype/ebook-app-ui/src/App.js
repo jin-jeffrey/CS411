@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import LoginButton from './LoginButton';
+import Login from './Login';
 import SearchForm from './SearchForm';
 
 const baseServerURL = "http://localhost:1234";
@@ -39,7 +39,7 @@ class App extends Component {
     return (
       <div className='container'>
         <h2>Playlist to ebook App</h2>
-        <LoginButton baseServerUrl = {`${baseServerURL}`} />
+        <Login baseServerUrl = {`${baseServerURL}`} />
         <SearchForm onSubmit={this.getLyrics} />
         <div>
           {this.state.lyrics}

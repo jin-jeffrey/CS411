@@ -1,10 +1,14 @@
 const express = require('express');
 var cors = require('cors');
 const fetch = require('node-fetch');
+const { request } = require('express');
+const reqs = require('request');
 const app = express();
-const client_id = '4ebacdebdf854fec86afc40543d6dbdf';
-const redirect_uri = 'http://localhost:3000';
-
+const config_data = require('./config.json')
+const client_id = config_data.client_id;
+const client_secret = config_data.client_secret;
+const redirect_uri = config_data.redirect_uri;
+const frontend_uri = config_data.frontend_uri;
 
 app.use(cors());
 
@@ -41,16 +45,58 @@ app.get('/login', function(req,res) {
     '&show_dialog=true'); 
 });
 
-app.get("/playlists/:token", function(req,res) {
-    let token = req.params.token;
+app.get('/callback', function (req, res) {
+    var code = req.query.code || null;
 
-    fetch('https://accounts.spotify.com/api/token', {
-        method: 'post',
-        grant_type: 'authorization_code',
-        code: token,
-        redirect_uri: redirect_uri
+    let authOptions = {
+        url: 'https://accounts.spotify.com/api/token',
+        form: {
+            code: code,
+            'redirect_uri': redirect_uri,
+            grant_type: 'authorization_code'
+        },
+        headers: {
+            'Authorization': 'Basic ' + (Buffer.from(client_id+':'+client_secret).toString('base64'))
+        },
+        json: true
+    }
+    reqs.post(authOptions, function (error,response, body) {
+        let access_token = body.access_token
+        res.redirect(frontend_uri + '?access_token=' + access_token)
+    })
+})
+
+app.get('/userinfo/:accesstoken', async (req, res) => {
+    let access_token = req.params.accesstoken;
+    
+    let headers = {
+        'Authorization': 'Bearer ' + access_token
+    };
+
+    let authOptions = {
+        url: 'https://api.spotify.com/v1/me',
+        headers: headers,
+        json: true
+    };
+
+    reqs(authOptions, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+            let user_id = body.id;
+
+            let playlistOptions = {
+                url: 'https://api.spotify.com/v1/users/' + user_id + '/playlists',
+                headers: headers,
+                json: true
+            };
+
+            reqs(playlistOptions, function (error, response, body) {
+                if (!error && response.statusCode == 200) {
+                    res.json(body)
+                }
+            })
+        }
     });
-});
+})
 
 app.listen(1234, () => {
     console.log("http://localhost:1234"); 
