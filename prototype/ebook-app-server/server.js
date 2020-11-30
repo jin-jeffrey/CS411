@@ -33,8 +33,10 @@ app.get("/lyrics/:artist/:song", async (req, res) => {
 
 });
 
-// Spotify OAuth endpoint
 app.get('/login', function(req,res) {
+    /* Spotify OAuth sign in
+    Args: None
+    Returns: None */
     var scopes = 'user-read-email playlist-read-private playlist-read-collaborative';
     res.redirect('https://accounts.spotify.com/authorize' + 
     '?response_type=code' + 
@@ -46,6 +48,9 @@ app.get('/login', function(req,res) {
 });
 
 app.get('/callback', function (req, res) {
+    /*Get Spotify access token
+    Args: None
+    Returns: None */   
     var code = req.query.code || null;
 
     let authOptions = {
@@ -67,6 +72,9 @@ app.get('/callback', function (req, res) {
 })
 
 app.get('/userinfo/:accesstoken', async (req, res) => {
+    /* Get user's Spotify data
+    Args: Spotify Access Token
+    Returns: Json of user data */
     let access_token = req.params.accesstoken;
     
     let headers = {
@@ -97,6 +105,50 @@ app.get('/userinfo/:accesstoken', async (req, res) => {
         }
     });
 })
+
+app.get('/songs/:token/:playlistid', async (req, res) => {
+    /* Get tracks from a playlist
+    Args: Spotify access token, Spotify playlist ID
+    Returns: Json of tracks
+    Format of Return:
+    {
+      tracks: [
+        {
+        song: song1
+        artist: [artist1, artist2]
+        }
+        {
+        song: song2
+        artist: [artist3, artist4]
+        }
+      ]
+    }
+    */
+    let headers = {
+        'Authorization': 'Bearer ' + req.params.token
+    }
+    let options = {
+        url: 'https://api.spotify.com/v1/playlists/' + req.params.playlistid + '/tracks',
+        headers: headers,
+        json: true
+    }
+    reqs(options, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+            let resp = body.items;
+            let tracks = [];
+            for (var x = 0; x < resp.length; x++) {
+                let song = resp[x].track.name;
+                let artists = [];
+                for (var y = 0; y < resp[x].track.artists.length; y++){
+                    artists.push(resp[x].track.artists[y].name)
+                }
+                tracks.push({song:song,artist:artists});
+            }
+            let values = {tracks: tracks}
+            res.json(values)
+        }
+    })
+});
 
 app.listen(1234, () => {
     console.log("http://localhost:1234"); 

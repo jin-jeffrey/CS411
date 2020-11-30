@@ -16,8 +16,15 @@ class Login extends Component {
         this.state = {
             isSignedIn: token ? true : false,
             token: token,
-            albums: []
+            playlists: [],
+            playlist: '',
+            artist: ''
         };
+
+        this.getQueryVariable = this.getQueryVariable.bind(this);
+        this.getTokenValue = this.getTokenValue.bind(this);
+        this.getPlaylists = this.getPlaylists.bind(this);
+        this.sendData = this.sendData.bind(this);
     }
 
     getQueryVariable (variable) {
@@ -41,10 +48,14 @@ class Login extends Component {
         fetch(url)
         .then(response => response.json())
         .then(data => {
-            this.state.albums = data.items
-            console.log(this.state.albums)
+            this.state.playlists = data.items
+            console.log(this.state.playlists)
         })
         .catch(error => console.log(error));
+    }
+
+    sendData () {
+        this.props.loginCallback({token: this.state.token, playlist: this.state.playlist, artist: this.state.artist});
     }
 
     render() {
@@ -57,7 +68,8 @@ class Login extends Component {
                 </div> :
                 <button onClick={() => window.location=this.props.baseServerUrl + '/login'}>Login to Spotify</button> 
                 }
-                <div>{this.state.albums}</div>
+                {/* temporary way to send data from child to parent via callback, will be changed when song selection is implemented */}
+                <button onClick={() => this.sendData()}>send data</button>
             </div>
         );
     }
