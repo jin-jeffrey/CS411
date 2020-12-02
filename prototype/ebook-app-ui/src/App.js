@@ -13,7 +13,7 @@ class App extends Component {
 
     // binding required for 'this' to work in callback
     this.getLyrics = this.getLyrics.bind(this);
-    this.loginCallback = this.loginCallback.bind(this);
+    this.getToken = this.getToken.bind(this);
   }
 
 
@@ -35,8 +35,8 @@ class App extends Component {
 
   }
 
-  loginCallback = (childData) => {
-    this.setState({token: childData.token, album: childData.playlist, artist: childData.artist})
+  getToken (userToken) {
+    this.setState({token: userToken})
   }
 
   //html goes below
@@ -44,15 +44,13 @@ class App extends Component {
     return (
       <div className='container'>
         <h2>Playlist to ebook App</h2>
-        <Login baseServerUrl = {`${baseServerURL}`} loginCallback = {this.loginCallback} />
+        <Login baseServerUrl = {`${baseServerURL}`} tokenCallback = {this.getToken} />
         <SearchForm onSubmit={this.getLyrics} />
         <div>
           {this.state.lyrics}
         </div>
         <div>
           <p>Token: {this.state.token}</p>
-          <p>Artist: {this.state.artist}</p>
-          <p>Playlist: {this.state.playlist}</p>
         </div>
       </div>
     );
