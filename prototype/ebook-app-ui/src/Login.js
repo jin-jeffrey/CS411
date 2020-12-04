@@ -22,7 +22,6 @@ class Login extends Component {
 
         this.getQueryVariable = this.getQueryVariable.bind(this);
         this.getTokenValue = this.getTokenValue.bind(this);
-        this.getPlaylists = this.getPlaylists.bind(this);
     }
 
     getQueryVariable (variable) {
@@ -41,24 +40,15 @@ class Login extends Component {
         return ('' + this.state.token)
     }
 
-    async getPlaylists () {
-        const url = 'http://localhost:1234/userinfo/' + this.getTokenValue();
-        fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            this.state.playlists = data.items
-            console.log(this.state.playlists)
-        })
-        .catch(error => console.log(error));
-    }
 
     render() {
         return ( 
             <div>
                 { this.state.isSignedIn === true ?
                 <div>
-                    <button onClick={() => window.location=this.props.baseServerUrl + '/login'}>Switch Accounts</button>
-                    <button onClick={() => this.getPlaylists()}>Get Playlists</button>
+                    <button className ="btn btn-primary" onClick={() => window.location=this.props.baseServerUrl + '/login'}>Switch Accounts</button>
+                    <p> 
+                    </p>
                 </div> :
                 <button onClick={() => window.location=this.props.baseServerUrl + '/login'}>Login to Spotify</button> 
                 }

@@ -12,6 +12,11 @@ const frontend_uri = config_data.frontend_uri;
 
 app.use(cors());
 
+
+const bodyParser = require("body-parser");
+app.use(bodyParser.urlencoded({extended:false}));
+app.use(bodyParser.json());
+
 const data = {a:10, b:2, c:3};
 
 //REST endpoints
@@ -27,7 +32,7 @@ app.get("/lyrics/:artist/:song", async (req, res) => {
 
     let response = await fetch("https://api.lyrics.ovh/v1/" + currentArtist + "/" + currentSong);
     let data = await response.json();
-    console.log("https://api.lyrics.ovh/v1/" + currentArtist + "/" + currentSong);
+    
     console.log("DATA", data)
     res.json(data);
 
@@ -148,6 +153,46 @@ app.get('/songs/:token/:playlistid', async (req, res) => {
             res.json(values)
         }
     })
+});
+
+//helper funtion for text processing and database lookup
+//the parameter "text" is a string of all the lyrics combined
+const processLyrics = async (text) => {
+    let result = [];
+  
+    result = [{title:"Harry Potter", author:"J.K. Rowling", eBookUrl: "www.google.com"},
+    {title:"Romeo and Juliet", author:"Shakespeare", eBookUrl: "www.yahoo.com"},
+    {title:"The Meaning of Science", author:"Tim Lewens", eBookUrl: "www.apple.com"}];
+  
+    return result;
+  }
+
+app.post('/lyrics', async (req, res) => {
+    console.log("BODYYY", req.body);
+    let lyricsText = "";
+    //get lyrics
+
+    let tracks = req.body.tracks;
+    if (tracks) {
+        for (let i = 0; i < tracks.length; i++) {
+            let url = "https://api.lyrics.ovh/v1/" + tracks[i].artist[0] + "/" + tracks[i].song;
+            let response = await fetch(url);
+            let data = await response.json();
+
+            if (data.lyrics) {
+                lyricsText += ' ' + data.lyrics;
+            } 
+        }
+    }
+
+    console.log("LYRICS", lyricsText);
+    //call helper method that processes lyrcis and returns one predefined "theme"
+    
+    //in the helper method, get ebook data from database and return that data
+    let result = await processLyrics(lyricsText);
+
+    //we have to eventually send back the ebook data to the frontend
+    res.json(result);
 });
 
 app.listen(1234, () => {

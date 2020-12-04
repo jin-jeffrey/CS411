@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Login from './Login';
-import SearchForm from './SearchForm';
+import SelectionForm from './SelectionForm';
 
 const baseServerURL = "http://localhost:1234";
 
@@ -9,30 +9,11 @@ class App extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {currentArtist: '', currentSong: '', lyrics: '', playlist: '', artist: '', token: ''};
+    this.state = {token: ''};
 
     // binding required for 'this' to work in callback
-    this.getLyrics = this.getLyrics.bind(this);
+  
     this.getToken = this.getToken.bind(this);
-  }
-
-
-  async getLyrics(songInfo) {
-    console.log(songInfo);
-    const url = `${baseServerURL}/lyrics/${songInfo.currentArtist}/${songInfo.currentSong}`;
-    console.log(url);
-
-    
-    fetch(url)
-      .then(response => response.json())   
-      .then(data => {
-        console.log(data);
-        this.setState({lyrics: data.lyrics, currentArtist: songInfo.currentArtist, currentSong: songInfo.currentSong});
-        
-        
-      })
-      .catch(error => console.error(error));
-
   }
 
   getToken (userToken) {
@@ -41,22 +22,23 @@ class App extends Component {
 
   //html goes below
   render() {
+    let showForm;
+    if (this.state.token) {
+      showForm = <SelectionForm baseServerUrl = {`${baseServerURL}`} token = {this.state.token} />;
+    } else {
+      showForm = "";
+    }
+
     return (
       <div className='container'>
-        <h2>Playlist to ebook App</h2>
+        <h2>Playlist to eBook App</h2>
         <Login baseServerUrl = {`${baseServerURL}`} tokenCallback = {this.getToken} />
-        <SearchForm onSubmit={this.getLyrics} />
-        <div>
-          {this.state.lyrics}
-        </div>
-        <div>
-          <p>Token: {this.state.token}</p>
-        </div>
+        
+        {showForm}  
+        
       </div>
     );
   }
-
-
 
 }
 
