@@ -14,10 +14,10 @@ app.use(cors());
 
 
 const bodyParser = require("body-parser");
-app.use(bodyParser.urlencoded({extended:false}));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-const data = {a:10, b:2, c:3};
+const data = { a: 10, b: 2, c: 3 };
 
 //REST endpoints
 app.get("/", (req, res) => {
@@ -32,30 +32,30 @@ app.get("/lyrics/:artist/:song", async (req, res) => {
 
     let response = await fetch("https://api.lyrics.ovh/v1/" + currentArtist + "/" + currentSong);
     let data = await response.json();
-    
+
     console.log("DATA", data)
     res.json(data);
 
 });
 
-app.get('/login', function(req,res) {
+app.get('/login', function (req, res) {
     /* Spotify OAuth sign in
     Args: None
     Returns: None */
     var scopes = 'user-read-email playlist-read-private playlist-read-collaborative';
-    res.redirect('https://accounts.spotify.com/authorize' + 
-    '?response_type=code' + 
-    '&client_id=' + client_id +
-    '&scope=' + encodeURIComponent(scopes) + 
-    '&redirect_uri=' + encodeURIComponent(redirect_uri) +
-    // if show_dialog set to false, users would not have to approve app again 
-    '&show_dialog=true'); 
+    res.redirect('https://accounts.spotify.com/authorize' +
+        '?response_type=code' +
+        '&client_id=' + client_id +
+        '&scope=' + encodeURIComponent(scopes) +
+        '&redirect_uri=' + encodeURIComponent(redirect_uri) +
+        // if show_dialog set to false, users would not have to approve app again 
+        '&show_dialog=true');
 });
 
 app.get('/callback', function (req, res) {
     /*Get Spotify access token
     Args: None
-    Returns: None */   
+    Returns: None */
     var code = req.query.code || null;
 
     let authOptions = {
@@ -66,11 +66,11 @@ app.get('/callback', function (req, res) {
             grant_type: 'authorization_code'
         },
         headers: {
-            'Authorization': 'Basic ' + (Buffer.from(client_id+':'+client_secret).toString('base64'))
+            'Authorization': 'Basic ' + (Buffer.from(client_id + ':' + client_secret).toString('base64'))
         },
         json: true
     }
-    reqs.post(authOptions, function (error,response, body) {
+    reqs.post(authOptions, function (error, response, body) {
         let access_token = body.access_token
         res.redirect(frontend_uri + '?access_token=' + access_token)
     })
@@ -81,7 +81,7 @@ app.get('/userinfo/:accesstoken', async (req, res) => {
     Args: Spotify Access Token
     Returns: Json of user data */
     let access_token = req.params.accesstoken;
-    
+
     let headers = {
         'Authorization': 'Bearer ' + access_token
     };
@@ -144,12 +144,12 @@ app.get('/songs/:token/:playlistid', async (req, res) => {
             for (var x = 0; x < resp.length; x++) {
                 let song = resp[x].track.name;
                 let artists = [];
-                for (var y = 0; y < resp[x].track.artists.length; y++){
+                for (var y = 0; y < resp[x].track.artists.length; y++) {
                     artists.push(resp[x].track.artists[y].name)
                 }
-                tracks.push({song:song,artist:artists});
+                tracks.push({ song: song, artist: artists });
             }
-            let values = {tracks: tracks}
+            let values = { tracks: tracks }
             res.json(values)
         }
     })
@@ -158,66 +158,72 @@ app.get('/songs/:token/:playlistid', async (req, res) => {
 //helper funtion for text processing and database lookup
 //the parameter "text" is a string of all the lyrics combined
 const processLyrics = async (text) => {
-    let words = text.trim().split(" ");
+    if (text) {
+        let words = text.trim().split(" ");
 
-    //themes to choose from (destined to change)
-    const romance = ["love", "like", "cute", "adorable", "baby", "babe", "amazing", 
-                    "beautiful", "joy", "loving", "heart", "couple", "romance"];
-    const horror = ["kill", "curse", "die", "dead"];
-    const angst = ["hate", "anxious", "anxiety", "worry", "wreath", "helpless"];
-    const adventure = ["run", "fly", "get away", "challenge", "venture", "journey", "vacation", "thrill"];
-    const youngAdult = ["relationship", "life", "hope", "boy", "girl", "couple", "growth", "young", "adult","youth"];
-    const fantasy = ["demon", "magic", "sky", "ship", "explore", "dream", "fire", 
-                    "dragon", "earth", "universe"];
+        //themes to choose from (destined to change)
+        const romance = ["love", "like", "cute", "adorable", "baby", "babe", "amazing",
+            "beautiful", "joy", "loving", "heart", "couple", "romance"];
+        const horror = ["kill", "curse", "die", "dead"];
+        const angst = ["hate", "anxious", "anxiety", "worry", "wreath", "helpless"];
+        const adventure = ["run", "fly", "get away", "challenge", "venture", "journey", "vacation", "thrill"];
+        const youngAdult = ["relationship", "life", "hope", "boy", "girl", "couple", "growth", "young", "adult", "youth"];
+        const fantasy = ["demon", "magic", "sky", "ship", "explore", "dream", "fire",
+            "dragon", "earth", "universe"];
 
-    let romanceCounter = 0;
-    let horrorCounter = 0;
-    let angstCounter = 0;
-    let adventureCounter = 0;
-    let youngAdultCounter = 0;
-    let fantasyCounter = 0;
+        let romanceCounter = 0;
+        let horrorCounter = 0;
+        let angstCounter = 0;
+        let adventureCounter = 0;
+        let youngAdultCounter = 0;
+        let fantasyCounter = 0;
 
-    for (let i = 0; i < words.length; i++) {
-        if (romance.includes(words[i])) {
-            romanceCounter += 1;
-        } else if (horror.includes(words[i])) {
-            horrorCounter += 1;
-        } else if (angst.includes(words[i])) {
-            angstCounter += 1;
-        } else if (adventure.includes(words[i])) {
-            adventureCounter += 1;
-        } else if (youngAdult.includes(words[i])) {
-            youngAdultCounter += 1;
-        } else if (fantasy.includes(words[i])) {
-            fantasyCounter += 1;
+        if (words.length > 0) {
+            for (let i = 0; i < words.length; i++) {
+                if (romance.includes(words[i])) {
+                    romanceCounter += 1;
+                } else if (horror.includes(words[i])) {
+                    horrorCounter += 1;
+                } else if (angst.includes(words[i])) {
+                    angstCounter += 1;
+                } else if (adventure.includes(words[i])) {
+                    adventureCounter += 1;
+                } else if (youngAdult.includes(words[i])) {
+                    youngAdultCounter += 1;
+                } else if (fantasy.includes(words[i])) {
+                    fantasyCounter += 1;
+                }
+            }
+
+            let result = "";
+            const maxCount = Math.max(romanceCounter, horrorCounter, angstCounter, adventureCounter, youngAdultCounter, fantasyCounter);
+            if (maxCount === romanceCounter) {
+                result = "romance";
+            } else if (maxCount === horrorCounter) {
+                result = "horror";
+            } else if (maxCount === angstCounter) {
+                result = "angst";
+            } else if (maxCount === adventureCounter) {
+                result = "adventure";
+            } else if (maxCount === youngAdultCounter) {
+                result = "young adult";
+            } else if (maxCount === fantasyCounter) {
+                result = "fantasy";
+            } else {
+                result = "not found";
+            }
+
+            return result;
+        } else {
+            return "not found";
         }
-    }
 
-    let result = "";
-    const maxCount = Math.max(romanceCounter, horrorCounter, angstCounter, adventureCounter,youngAdultCounter,fantasyCounter);
-    if (maxCount === romanceCounter) {
-        result = "romance";
-    } else if (maxCount === horrorCounter) {
-        result = "horror";
-    } else if (maxCount === angstCounter) {
-        result = "angst";
-    } else if (maxCount === adventureCounter) {
-        result = "adventure";
-    } else if (maxCount === youngAdultCounter) {
-        result = "young adult";
-    } else if (maxCount === fantasyCounter) {
-        result = "fantasy";
-    } else {
-        result = "not found";
+        //console.log(result);
+        /*result = [{title:"Harry Potter", author:"J.K. Rowling", eBookUrl: "www.google.com"},
+        {title:"Romeo and Juliet", author:"Shakespeare", eBookUrl: "www.yahoo.com"},
+        {title:"The Meaning of Science", author:"Tim Lewens", eBookUrl: "www.apple.com"}];*/
     }
-    
-    //console.log(result);
-    /*result = [{title:"Harry Potter", author:"J.K. Rowling", eBookUrl: "www.google.com"},
-    {title:"Romeo and Juliet", author:"Shakespeare", eBookUrl: "www.yahoo.com"},
-    {title:"The Meaning of Science", author:"Tim Lewens", eBookUrl: "www.apple.com"}];*/
-  
-    return result;
-  }
+}
 
 app.post('/lyrics', async (req, res) => {
     console.log("BODYYY", req.body);
@@ -233,13 +239,13 @@ app.post('/lyrics', async (req, res) => {
 
             if (data.lyrics) {
                 lyricsText += ' ' + data.lyrics;
-            } 
+            }
         }
     }
 
     //console.log("LYRICS", lyricsText);
     //call helper method that processes lyrcis and returns one predefined "theme"
-    
+
     //in the helper method, get ebook data from database and return that data
     let result = await processLyrics(lyricsText);
     console.log(result);
@@ -249,5 +255,5 @@ app.post('/lyrics', async (req, res) => {
 });
 
 app.listen(1234, () => {
-    console.log("http://localhost:1234"); 
+    console.log("http://localhost:1234");
 });
