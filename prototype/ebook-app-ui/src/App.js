@@ -31,11 +31,12 @@ class App extends Component {
 
     return (
       <div className='container'>
-        <h2>Playlist to eBook App</h2>
+        <center>
+        <h1>BookTunes</h1>
         <Login baseServerUrl = {`${baseServerURL}`} tokenCallback = {this.getToken} />
         
         {showForm}  
-        
+        </center>
       </div>
     );
   }

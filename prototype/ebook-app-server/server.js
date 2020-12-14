@@ -9,6 +9,14 @@ const client_id = config_data.client_id;
 const client_secret = config_data.client_secret;
 const redirect_uri = config_data.redirect_uri;
 const frontend_uri = config_data.frontend_uri;
+const MongoClient = require('mongodb').MongoClient;
+const ObjectId = require('mongodb').ObjectId;
+
+const uri = "mongodb+srv://" + config_data.db_user + ":" + config_data.db_password + "@cs411.nmabn.mongodb.net/ebooks?retryWrites=true&w=majority";
+let connection;
+(async () => {
+    connection = await MongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+})();
 
 app.use(cors());
 
@@ -206,7 +214,7 @@ const processLyrics = async (text) => {
             } else if (maxCount === adventureCounter) {
                 result = "adventure";
             } else if (maxCount === youngAdultCounter) {
-                result = "young adult";
+                result = "youngAdult";
             } else if (maxCount === fantasyCounter) {
                 result = "fantasy";
             } else {
@@ -230,6 +238,7 @@ app.post('/lyrics', async (req, res) => {
     let lyricsText = "";
     //get lyrics
 
+    
     let tracks = req.body.tracks;
     if (tracks) {
         for (let i = 0; i < tracks.length; i++) {
@@ -242,16 +251,43 @@ app.post('/lyrics', async (req, res) => {
             }
         }
     }
-
+    
     //console.log("LYRICS", lyricsText);
     //call helper method that processes lyrcis and returns one predefined "theme"
 
     //in the helper method, get ebook data from database and return that data
-    let result = await processLyrics(lyricsText);
-    console.log(result);
+    let Ourtheme = await processLyrics(lyricsText);
+
+    console.log(Ourtheme);
+
+
+    let collection = connection.db("ebooks").collection("themes");
+
+    let result = await collection.find({"Themes": Ourtheme}).toArray();
+
+    let bookResult = [];
+    if (result.length > 0) {
+
+        let doc = result[0];
+        let books = doc.ebooks;
+
+        let i = Math.floor(Math.random() * books.length);
+        let j = (i + 1) % books.length;
+        let k = (j + 1) % books.length;
+        let id_i = new ObjectId(books[i]);
+        let id_j = new ObjectId(books[j])
+        let id_k = new ObjectId(books[k])
+        let collectionEbook = connection.db("ebooks").collection("ebooks");
+
+        console.log(id_i, id_j, id_k);
+        bookResult = await collectionEbook.find({"_id":{$in:[id_i, id_j, id_k]}}).toArray();
+        console.log(bookResult);
+    } 
 
     //we have to eventually send back the ebook data to the frontend
-    res.json(result);
+    res.json({theme: Ourtheme,
+        books: bookResult});
+    
 });
 
 app.listen(1234, () => {

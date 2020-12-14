@@ -5,7 +5,7 @@ class SelectionForm extends Component {
  
     constructor(props) {
         super(props);
-        this.state = {playlist:[], playlistTracks:[]};
+        this.state = {playlist:[], playlistTracks:[], eBooks:[], theme:""};
         this.baseServerUrl = props.baseServerUrl;
         console.log("BSURL", this.baseServerUrl);
 
@@ -13,6 +13,7 @@ class SelectionForm extends Component {
         this.getPlaylistTracks = this.getPlaylistTracks.bind(this);
         this.getTrackLyrics = this.getTrackLyrics.bind(this);
         this.handleSubmit   = this.handleSubmit.bind(this);
+        this.startOver = this.startOver.bind(this);
 
     }
 
@@ -26,6 +27,11 @@ class SelectionForm extends Component {
         this.props.onSubmit(
             {currentArtist: this.state.currentArtist, 
                 currentSong: this.state.currentSong});
+    }
+
+    startOver(event) {
+        event.preventDefault();
+        this.setState({playlist:[], playlistTracks:[], eBooks:[], theme:""});
     }
 
     async getPlaylists(event) {
@@ -81,7 +87,9 @@ class SelectionForm extends Component {
 
       let response =  await fetch(url, options);
       let data =      await response.json();
-      console.log("END OF TRACKLYRICS", data);
+      let theme = data.theme;
+      theme = theme[0].toUpperCase() + theme.substr(1);
+      this.setState({eBooks: data.books,theme: theme});
        
     }
 
@@ -133,6 +141,26 @@ class SelectionForm extends Component {
                         <button type="submit" className ="btn btn-primary">Get EBooks!</button>
                     </form>   
                 </div>
+            </div>
+            }
+
+            {this.state.eBooks.length > 0 &&
+            <div>
+             <h3>Recommended eBooks for {this.state.theme} Theme:</h3>
+                    {
+                        this.state.eBooks.map((book, index) => (
+                            <span key={index}>
+                            <p>
+                                <b>Title: </b>{book.Title}<br></br>
+                                <b>Author: </b>{book.Author}<br></br>
+                                <a href={book.URL} target ='_blank'><b>Click here to read!</b></a><br></br>
+                            </p>
+                            </span>
+                        ))
+                    }
+                    <form onSubmit = {this.startOver}><button type="submit" className ="btn btn-primary">Start Over!</button></form>
+            
+            
             </div>
             }
         
